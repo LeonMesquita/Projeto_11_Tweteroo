@@ -101,8 +101,8 @@ server.get('/', (request, response) => {
 server.post('/sign-up', (request, response) => {
    if(request.body.username !== "" && request.body.avatar !== ""){
       usersList.push(request.body);
-      response.send('ok');
-   }
+      response.status(201).send('ok');
+      }
    else
       response.sendStatus(400);
 
@@ -123,10 +123,10 @@ server.post('/tweets', (request, response) => {
       tweetsList.push(
          tweetObj
       );
-      response.send('ok');
+      response.status(201).send('ok');
     }
     else
-    response.sendStatus(400);
+      response.sendStatus(400);
 
 });
 
