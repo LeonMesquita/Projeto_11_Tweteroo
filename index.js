@@ -9,7 +9,7 @@ server.use(express.json());
 const usersList = [
     {
         username: 'bobesponja', 
-		avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+		avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw_nkNsV5AxgWJmck8iIom70JkIno1QmDHUA&usqp=CAU",
     },
     {
         username: 'patrick', 
@@ -26,7 +26,7 @@ const tweetsList = [
     {
        username: "bobesponja",
        tweet: "eu amo o hub",
-       avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
+       avatar: usersList[0].avatar,
     },
     {
         username: "patrick",
@@ -83,8 +83,8 @@ const tweetsList = [
         username: "bobesponja",
         tweet: "teste 11",
         avatar: usersList[0].avatar,
-     },
-     {
+      },
+      {
         username: "molusco",
         tweet: "teste 12",
         avatar: usersList[2].avatar,
@@ -99,29 +99,34 @@ server.get('/', (request, response) => {
 
 
 server.post('/sign-up', (request, response) => {
+   if(request.body.username !== "" && request.body.avatar !== ""){
+      usersList.push(request.body);
+      response.send('ok');
+   }
+   else
+      response.sendStatus(400);
 
-  console.log(request.body)
-
-    usersList.push(
-      request.body
-    );
-    response.send('ok');
 });
 
 
 server.post('/tweets', (request, response) => {
     const username = request.body.username;
-    const user = usersList.find(newUser => newUser.username === username);
-    const tweetObj = {
-        username: username,
-        tweet: request.body.tweet,
-        avatar: user.avatar
-    }
+    const tweet = request.body.tweet;
 
-    tweetsList.push(
-        tweetObj
-    );
-    response.send('ok');
+    if (tweet !== ""){
+      const user = usersList.find(newUser => newUser.username === username);
+      const tweetObj = {
+         username: username,
+         tweet: tweet,
+         avatar: user.avatar
+      }
+      tweetsList.push(
+         tweetObj
+      );
+      response.send('ok');
+    }
+    else
+    response.sendStatus(400);
 
 });
 
