@@ -93,10 +93,6 @@ const tweetsList = [
              
 ];
 
-server.get('/', (request, response) => {
-    response.send(usersList);
-});
-
 
 server.post('/sign-up', (request, response) => {
    if(request.body.username !== "" && request.body.avatar !== ""){
@@ -108,9 +104,12 @@ server.post('/sign-up', (request, response) => {
 });
 
 
+
+
 server.post('/tweets', (request, response) => {
-    const username = request.body.username;
+   const username = request.headers.user;
     const tweet = request.body.tweet;
+    console.log(request.headers)
 
     if (tweet !== ""){
       const user = usersList.find(newUser => newUser.username === username);
