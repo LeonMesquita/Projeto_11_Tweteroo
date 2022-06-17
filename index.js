@@ -104,8 +104,7 @@ server.post('/sign-up', (request, response) => {
       response.status(201).send('ok');
       }
    else
-      response.sendStatus(400);
-
+      response.status(400).send("Todos os campos são obrigatórios!");
 });
 
 
@@ -126,8 +125,7 @@ server.post('/tweets', (request, response) => {
       response.status(201).send('ok');
     }
     else
-      response.sendStatus(400);
-
+      response.status(400).send("Todos os campos são obrigatórios!");
 });
 
 server.get('/tweets', (request, response) => {
