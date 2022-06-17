@@ -128,6 +128,8 @@ server.post('/tweets', (request, response) => {
       response.status(400).send("Todos os campos são obrigatórios!");
 });
 
+
+
 server.get('/tweets', (request, response) => {
     const lastTweets = [];
     let qtdOfTweets = 0;
@@ -138,6 +140,12 @@ server.get('/tweets', (request, response) => {
             break;
     }
     response.send(lastTweets);
+});
+
+server.get('/tweets/:username', (request, response) => {
+   const username = request.params.username;
+   const userTweets = tweetsList.filter(tweet => tweet.username === username);
+   response.send(userTweets);
 });
 
 server.listen(5000);
