@@ -3,7 +3,6 @@ import cors from 'cors';
 
 const server = express();
 server.use(cors());
-
 server.use(express.json());
 
 const usersList = [
@@ -94,7 +93,6 @@ const tweetsList = [
 ];
 
 
-let tweetsIndex = tweetsList.length-1;
 
 server.post('/sign-up', (request, response) => {
    if(request.body.username !== "" && request.body.avatar !== ""){
@@ -111,8 +109,6 @@ server.post('/sign-up', (request, response) => {
 server.post('/tweets', (request, response) => {
    const username = request.headers.user;
     const tweet = request.body.tweet;
-    console.log(request.headers)
-
     if (tweet !== ""){
       const user = usersList.find(newUser => newUser.username === username);
       const tweetObj = {
@@ -133,8 +129,7 @@ server.post('/tweets', (request, response) => {
 server.get('/tweets', (request, response) => {
    const page = parseInt(request.query["page"]);
    if (page > 0){
-      const limit = 10 * page;
-      const currentIndex = page === 1 ? tweetsList.length - page : (tweetsList.length-1) - (page-1) * 10; 
+      const currentIndex = page === 1 ? tweetsList.length-1 : (tweetsList.length-1) - (page-1) * 10; 
       const lastTweets = [];
       let qtdOfTweets = 0;
       for (let count = currentIndex; count >= 0; count--){
