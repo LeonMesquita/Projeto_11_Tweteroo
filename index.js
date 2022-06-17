@@ -94,6 +94,8 @@ const tweetsList = [
 ];
 
 
+let tweetsIndex = tweetsList.length-1;
+
 server.post('/sign-up', (request, response) => {
    if(request.body.username !== "" && request.body.avatar !== ""){
       usersList.push(request.body);
@@ -128,17 +130,24 @@ server.post('/tweets', (request, response) => {
 });
 
 
-
 server.get('/tweets', (request, response) => {
-    const lastTweets = [];
-    let qtdOfTweets = 0;
-    for (let count = tweetsList.length-1; count >= 0; count--){
-        lastTweets.push(tweetsList[count]);
-        qtdOfTweets++
-        if(qtdOfTweets === 10)
-            break;
+   const page = parseInt(request.query["page"]);
+   if (page > 0){
+      const limit = 10 * page;
+      const currentIndex = page === 1 ? tweetsList.length - page : (tweetsList.length-1) - (page-1) * 10; 
+      const lastTweets = [];
+      let qtdOfTweets = 0;
+      for (let count = currentIndex; count >= 0; count--){
+         lastTweets.push(tweetsList[count]);
+         qtdOfTweets++
+         if(qtdOfTweets === 10)
+               break;
+      }
+      response.send(lastTweets);       
     }
-    response.send(lastTweets);
+    else
+      response.status(400).send("Informe uma página válida!");
+
 });
 
 server.get('/tweets/:username', (request, response) => {
